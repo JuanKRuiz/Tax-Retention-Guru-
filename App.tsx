@@ -128,7 +128,7 @@ const App: React.FC = () => {
                 <div className="relative z-10">
                   <div className="flex justify-between items-start mb-2">
                      <h1 className="text-2xl font-bold">Simulador 2026</h1>
-                     <span className="bg-white/20 text-white text-xs font-bold px-2 py-1 rounded backdrop-blur-sm border border-white/20">UVT $52.374</span>
+                     <span className="bg-white/20 text-white text-xs font-bold px-2 py-1 rounded backdrop-blur-sm border-2 border-orange-500 animate-pulse transition-all">UVT $52.374</span>
                   </div>
                   <p className="opacity-90 mb-4 text-sm text-blue-50">Configura tus ingresos para ver la comparativa.</p>
                   

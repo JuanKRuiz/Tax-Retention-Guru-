@@ -169,7 +169,7 @@ const InputForm: React.FC<Props> = ({ inputs, setInputs }) => {
              <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-3 flex gap-3 items-start">
                  <Info className="w-5 h-5 text-yellow-600 mt-0.5 flex-shrink-0" />
                  <div>
-                     <h4 className="text-xs font-bold text-yellow-800 uppercase">Aviso LATAM Payroll</h4>
+                     <h4 className="text-xs font-bold text-yellow-800 uppercase">Normativa General</h4>
                      <p className="text-[11px] text-yellow-700 leading-relaxed">
                         Para el cálculo de <strong>Enero (Semestre 1)</strong>, se toman los ingresos con corte a <strong>Noviembre</strong> del año anterior. 
                         Para el <strong>Semestre 2</strong>, se toma el corte a <strong>Mayo</strong>.
@@ -181,7 +181,7 @@ const InputForm: React.FC<Props> = ({ inputs, setInputs }) => {
          <div className="p-6">
             <InputField 
                label="Promedio Mensual (Últimos 12 Meses)" 
-               subLabel="Calculado según fechas de corte LATAM Payroll (Nov/Mayo)"
+               subLabel="Calculado según fechas de corte (Nov/Mayo)"
                value={inputs.historicalMonthlyIncome || 0} 
                field="historicalMonthlyIncome" 
                icon={History} 

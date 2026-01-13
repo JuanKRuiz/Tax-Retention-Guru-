@@ -1,0 +1,41 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout 🛎️
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js ⚙️
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Install Dependencies 🔧
+        run: npm ci
+
+      - name: Build 🏗️
+        run: npm run build
+        env:
+          # Si necesitas inyectar variables en el build, hazlo aquí.
+          # Nota: Para secrets reales, usa ${{ secrets.TU_SECRET }}
+          # y configúralos en Settings > Secrets and variables > Actions
+          VITE_API_KEY_PLACEHOLDER: "build_process" 
+
+      - name: Deploy 🚀
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: dist # La carpeta que genera el build
+          branch: gh-pages # La rama donde se publica
+          clean: true # Borra archivos viejos en gh-pages

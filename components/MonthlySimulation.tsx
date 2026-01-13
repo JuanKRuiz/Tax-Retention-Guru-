@@ -237,7 +237,7 @@ const MonthlySimulation: React.FC<Props> = ({ baseInputs, fixedRateP2 }) => {
       </div>
 
       {/* Summary Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
             <h3 className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Total Año - Proc 1</h3>
             <p className="text-3xl font-bold text-gray-800 tracking-tight">{formatCOP(totals.p1)}</p>
@@ -251,18 +251,6 @@ const MonthlySimulation: React.FC<Props> = ({ baseInputs, fixedRateP2 }) => {
              <div className="mt-2 text-xs text-[#4285F4] font-medium bg-blue-50 inline-block px-2 py-1 rounded-md border border-blue-100">
                Tasa Fija {fixedRateP2.toFixed(2)}%
             </div>
-        </div>
-        <div className={`p-6 rounded-xl shadow-sm border-l-4 ${totals.diff > 0 ? 'bg-green-50/50 border-green-500' : 'bg-red-50/50 border-red-500'} bg-white`}>
-            <h3 className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Diferencia Neta Anual</h3>
-            <div className="flex items-center gap-2">
-                <p className={`text-3xl font-bold tracking-tight ${totals.diff > 0 ? 'text-green-600' : 'text-red-600'}`}>
-                    {totals.diff > 0 ? formatCOP(totals.diff) : formatCOP(totals.diff)}
-                </p>
-                {totals.diff > 0 && <TrendingDown className="w-6 h-6 text-green-600" />}
-            </div>
-            <p className="text-sm text-gray-600 mt-2 font-medium">
-                {totals.diff > 0 ? 'Ahorro proyectado usando Procedimiento 2' : 'Pagarías menos con Procedimiento 1'}
-            </p>
         </div>
       </div>
 

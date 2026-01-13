@@ -4,7 +4,7 @@ Herramienta web especializada para el cálculo, comparación y simulación de pr
 
 ![React](https://img.shields.io/badge/React-19.0-blue)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue)
-![Tailwind](https://img.shields.io/badge/Tailwind-CSS-3.4-38B2AC)
+![Tailwind](https://img.shields.io/badge/Tailwind_CSS-3.4-38B2AC?logo=tailwind-css&logoColor=white)
 ![Gemini](https://img.shields.io/badge/AI-Gemini%20Flash-orange)
 
 ## ✨ Características Principales
@@ -30,11 +30,57 @@ Herramienta web especializada para el cálculo, comparación y simulación de pr
 
 ## 🚀 Tecnologías
 
-- **Frontend:** React + TypeScript + Vite (implicit).
+- **Frontend:** React + TypeScript + Vite.
 - **Estilos:** Tailwind CSS + Lucide React (Iconos).
 - **Gráficos:** Recharts.
 - **IA:** Google GenAI SDK (Gemini 1.5 Flash).
-- **Transpilación:** ESM.sh (No requiere build step complejo localmente).
+
+## 🛠️ Instalación y Uso Local
+
+Sigue estos pasos para ejecutar el proyecto en tu máquina:
+
+1. **Clonar el repositorio e instalar dependencias:**
+   ```bash
+   git clone https://github.com/JuanKRuiz/Tax-Retention-Guru-.git
+   cd Tax-Retention-Guru-
+   npm install
+   ```
+
+2. **Configurar API Key (Opcional):**
+   - Crea un archivo `.env` en la raíz del proyecto.
+   - Agrega tu clave de Google Gemini (si quieres que el Asesor IA funcione por defecto):
+     ```env
+     GEMINI_API_KEY=tu_api_key_aqui
+     ```
+   - *Nota:* Si no configuras esto, la app tiene un modo **BYOK (Bring Your Own Key)** que pedirá la clave al usuario en la interfaz.
+
+3. **Ejecutar el servidor de desarrollo:**
+   ```bash
+   npm run dev
+   ```
+   Abre [http://localhost:3000](http://localhost:3000) en tu navegador.
+
+## 🌍 Despliegue Automático (CI/CD)
+
+Este proyecto usa **GitHub Actions** para desplegar automáticamente.
+
+1. **Cómo actualizar el sitio:**
+   Simplemente sube tus cambios a la rama `main`:
+   ```bash
+   git add .
+   git commit -m "Descripción de los cambios"
+   git push origin main
+   ```
+   
+   Automáticamente se iniciará un proceso que:
+   - Instala dependencias.
+   - Construye la aplicación (`npm run build`).
+   - Sube la carpeta resultante a la rama `gh-pages`.
+
+2. **Verificación:**
+   - La actualización tardará unos 1-2 minutos.
+   - Puedes ver el progreso en la pestaña **Actions** de tu repositorio.
+   - Tu sitio se actualizará solo en: `https://TU_USUARIO.github.io/Tax-Retention-Guru-/`
 
 ## ⚖️ Descargo de Responsabilidad
 
