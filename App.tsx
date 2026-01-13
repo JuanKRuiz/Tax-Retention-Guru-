@@ -49,22 +49,22 @@ const App: React.FC = () => {
   }, [inputs]);
 
   const loadScenario = () => {
-    // Escenario DEMO (JuanK)
+    // Escenario DEMO
     setInputs({
-      monthlySalary: 32416667, // Salario Base
+      monthlySalary: 15000000, // Salario Base Ejemplo
       otherIncome: 0, 
-      voluntaryPension: 0,
-      afcContribution: 4300000, 
-      housingInterest: 2500000, // Agregado algo de vivienda para realismo
-      prepaidMedicine: 800000,
+      voluntaryPension: 1000000,
+      afcContribution: 500000, 
+      housingInterest: 1200000, 
+      prepaidMedicine: 450000,
       hasDependents: true,
       isSalarioIntegral: true,
       procedure2Rate: 0, 
-      historicalMonthlyIncome: 72058000,
+      historicalMonthlyIncome: 18000000,
       simulationMonthlies: [
-        36576700, 96533178, 60870000, 49282892, 
-        89259323, 69153942, 72285776, 86802405, 
-        69089749, 57180557, 105602432, 92136154
+        15000000, 25000000, 16000000, 15000000, 
+        15000000, 22000000, 15000000, 15000000, 
+        15000000, 15000000, 30000000, 15000000
       ]
     });
   };
@@ -137,7 +137,7 @@ const App: React.FC = () => {
                     className="flex items-center gap-2 bg-white text-[#4285F4] px-4 py-2 rounded-lg font-bold text-xs sm:text-sm hover:bg-blue-50 transition-colors shadow-lg w-full sm:w-auto justify-center active:scale-95"
                   >
                     <PlayCircle className="w-4 h-4 fill-current" />
-                    Cargar Demo (JuanK)
+                    Cargar Demo (Ejemplo)
                   </button>
                 </div>
                 {/* Decoration */}

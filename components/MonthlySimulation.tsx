@@ -167,34 +167,74 @@ const MonthlySimulation: React.FC<Props> = ({ baseInputs, fixedRateP2 }) => {
         </div>
       </div>
 
-      {/* Stability Analysis Card (New) */}
-      {stabilityAnalysis && stabilityAnalysis.winner !== 'Empate' && (
-          <div className="bg-gradient-to-r from-indigo-50 to-blue-50 border border-indigo-100 rounded-xl p-5 relative overflow-hidden">
-             <div className="relative z-10 flex flex-col md:flex-row items-start md:items-center gap-4">
-                <div className="p-3 bg-white rounded-full shadow-sm text-indigo-600">
-                   <Activity className="w-6 h-6" />
-                </div>
-                <div className="flex-1">
-                   <h3 className="font-bold text-indigo-900 text-lg">Análisis de Estabilidad de Flujo de Caja</h3>
-                   <p className="text-indigo-700 text-sm mt-1">
-                      Basado en la variabilidad de tu ingreso neto mensual (lo que llega a tu bolsillo).
-                   </p>
-                </div>
-                <div className="bg-white/80 backdrop-blur-sm px-5 py-3 rounded-xl border border-indigo-100 shadow-sm flex items-center gap-3">
+      {/* Comparison Cards: Savings & Stability */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        
+        {/* NEW: Savings Analysis Card */}
+        <div className={`rounded-xl p-5 relative overflow-hidden border border-l-4 shadow-sm ${Math.abs(totals.diff) > 0 ? (totals.diff > 0 ? 'bg-blue-50/50 border-blue-500 from-blue-50 to-white' : 'bg-green-50/50 border-green-500 from-green-50 to-white') : 'bg-gray-50 border-gray-300'}`}>
+             <div className="relative z-10 flex flex-col h-full justify-between">
+                <div className="flex items-start gap-3 mb-4">
+                   <div className={`p-3 rounded-full shadow-sm ${totals.diff > 0 ? 'bg-blue-100 text-blue-600' : 'bg-green-100 text-green-600'}`}>
+                      <DollarSign className="w-6 h-6" />
+                   </div>
                    <div>
-                      <p className="text-xs text-gray-500 font-bold uppercase tracking-wider">Opción Más Estable</p>
-                      <p className="text-lg font-bold text-indigo-600 flex items-center gap-2">
-                         {stabilityAnalysis.winner}
-                         <CheckCircle2 className="w-5 h-5 fill-indigo-100 text-indigo-600" />
+                      <h3 className={`font-bold text-lg ${totals.diff > 0 ? 'text-blue-900' : 'text-green-900'}`}>Opción Más Económica</h3>
+                      <p className="text-gray-600 text-sm mt-1">
+                         La opción que te hace pagar menos impuestos al año.
                       </p>
                    </div>
                 </div>
+
+                <div className="bg-white/80 backdrop-blur-sm px-5 py-4 rounded-xl border border-gray-200/50 shadow-sm">
+                   <div className="flex justify-between items-center">
+                      <div>
+                         <p className="text-xs text-gray-400 font-bold uppercase tracking-wider mb-1">Mejor Opción</p>
+                         <p className={`text-xl font-bold flex items-center gap-2 ${totals.diff > 0 ? 'text-blue-600' : totals.diff < 0 ? 'text-green-600' : 'text-gray-600'}`}>
+                            {Math.abs(totals.diff) < 1000 ? 'Empate Técnico' : (totals.diff > 0 ? 'Procedimiento 2' : 'Procedimiento 1')}
+                         </p>
+                      </div>
+                      {Math.abs(totals.diff) > 1000 && (
+                          <div className="text-right">
+                             <p className="text-xs text-gray-400 font-bold uppercase tracking-wider mb-1">Ahorro Anual</p>
+                             <p className="text-xl font-bold text-gray-800">{formatCOP(Math.abs(totals.diff))}</p>
+                          </div>
+                      )}
+                   </div>
+                </div>
              </div>
-             <p className="relative z-10 mt-4 text-xs text-indigo-600/80">
-                * El {stabilityAnalysis.winner} presenta un flujo de caja un <strong>{stabilityAnalysis.percentDifference.toFixed(1)}% más estable</strong> (menor desviación estándar en el neto a pagar) frente a la otra opción, lo que facilita tu planificación financiera mensual.
-             </p>
-          </div>
-      )}
+        </div>
+
+        {/* Existing: Stability Analysis Card */}
+        {stabilityAnalysis && stabilityAnalysis.winner !== 'Empate' && (
+            <div className="bg-gradient-to-r from-indigo-50 to-purple-50 border-l-4 border-l-indigo-500 rounded-xl p-5 relative overflow-hidden shadow-sm">
+               <div className="relative z-10 flex flex-col h-full justify-between">
+                  <div className="flex items-start gap-3 mb-4">
+                     <div className="p-3 bg-indigo-100 rounded-full shadow-sm text-indigo-600">
+                        <Activity className="w-6 h-6" />
+                     </div>
+                     <div>
+                        <h3 className="font-bold text-indigo-900 text-lg">Opción Más Estable</h3>
+                        <p className="text-indigo-700/80 text-sm mt-1">
+                           Menor variación en tu sueldo neto mensual.
+                        </p>
+                     </div>
+                  </div>
+                  
+                  <div className="bg-white/80 backdrop-blur-sm px-5 py-4 rounded-xl border border-indigo-100 shadow-sm mt-auto">
+                      <div>
+                         <p className="text-xs text-indigo-400 font-bold uppercase tracking-wider mb-1">Mejor Opción</p>
+                         <p className="text-xl font-bold text-indigo-600 flex items-center gap-2">
+                             {stabilityAnalysis.winner}
+                         </p>
+                         <p className="text-xs text-indigo-400 mt-2">
+                            {stabilityAnalysis.percentDifference.toFixed(1)}% más predecible mes a mes.
+                         </p>
+                      </div>
+                  </div>
+               </div>
+            </div>
+        )}
+      </div>
 
       {/* Summary Cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">

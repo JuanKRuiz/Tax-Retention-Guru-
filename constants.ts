@@ -1,4 +1,4 @@
-// Valores tributarios para Colombia (Año fiscal 2026 según comunicado LATAM Payroll)
+// Valores tributarios para Colombia (Año fiscal 2026 - Proyección)
 // UVT 2026 oficial según PDF: 52.374 COP
 // SMMLV proyectado (aprox): 1.500.000 COP (Estimado, no crítico para retención alta)
 

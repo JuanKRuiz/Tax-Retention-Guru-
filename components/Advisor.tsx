@@ -5,11 +5,17 @@ import ReactMarkdown from 'react-markdown';
 
 const Advisor: React.FC = () => {
   const [messages, setMessages] = useState<{ role: 'user' | 'model'; text: string }[]>([
-    { role: 'model', text: 'Hola, soy tu experto tributario AI. He analizado el comunicado de LATAM Payroll sobre el recálculo para 2026. ¿Tienes dudas sobre qué procedimiento elegir antes del 15 de enero?' }
+    { role: 'model', text: 'Hola, soy tu experto tributario AI. He analizado la normativa para el año fiscal 2026. ¿Tienes dudas sobre qué procedimiento de retención en la fuente elegir?' }
   ]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  
+  // BYOK (Bring Your Own Key) State
+  const [userApiKey, setUserApiKey] = useState('');
+  const [hasKey, setHasKey] = useState(!!process.env.API_KEY || !!process.env.GEMINI_API_KEY);
+  const [showKeyInput, setShowKeyInput] = useState(!hasKey);
+
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const scrollToBottom = () => {
@@ -18,10 +24,24 @@ const Advisor: React.FC = () => {
 
   useEffect(() => {
     scrollToBottom();
-  }, [messages]);
+  }, [messages, showKeyInput]);
+
+  const handleSaveKey = () => {
+    if (userApiKey.trim().length > 10) {
+       setHasKey(true);
+       setShowKeyInput(false);
+    }
+  };
 
   const handleSend = async () => {
     if (!input.trim() || isLoading) return;
+
+    const currentKey = process.env.API_KEY || process.env.GEMINI_API_KEY || userApiKey;
+
+    if (!currentKey) {
+        setShowKeyInput(true);
+        return;
+    }
 
     const userMessage = input;
     setInput('');
@@ -30,37 +50,30 @@ const Advisor: React.FC = () => {
     setError(null);
 
     try {
-      const apiKey = process.env.API_KEY;
-      if (!apiKey) {
-        throw new Error("API Key no configurada.");
-      }
-
-      const ai = new GoogleGenAI({ apiKey });
+      const ai = new GoogleGenAI({ apiKey: currentKey });
       
       const systemInstruction = `
-        Eres un experto tributario en Colombia y asesor especializado para empleados de Google Colombia (LATAM Payroll).
-        Tienes acceso al contexto del comunicado "[IMPORTANT | Action Required] CO - Recálculo de Porcentaje Fijo de Retención (2026)".
+        Eres un experto tributario en Colombia y asesor especializado en Retención en la Fuente para empleados.
+        Tienes acceso al contexto del Estatuto Tributario Colombiano para el año 2026.
 
-        INFORMACIÓN CLAVE DEL DOCUMENTO DE LATAM PAYROLL:
-        1. **Fecha Límite:** Los empleados deben elegir su procedimiento antes del **15 de Enero de 2026**. Si no eligen, continúan con el actual.
-        2. **UVT 2026:** El documento cita una UVT de **COP 52.374**.
+        INFORMACIÓN CLAVE (ESTATUTO TRIBUTARIO):
+        1. **Fecha Límite:** Los empleados deben elegir su procedimiento a principio de año (o semestralmente).
+        2. **UVT 2026:** Valor oficial proyectado de **COP 52.374**.
         3. **Procedimiento 1 (Tabla):** Se aplica la tabla del Art 383 (variable mes a mes).
         4. **Procedimiento 2 (Fijo):** 
            - Es un porcentaje fijo semestral.
-           - REGLA DE CÁLCULO ESPECÍFICA DE LA AGENCIA:
-             * Para el **Primer Semestre (Ene-Jun)**: Se tienen en cuenta los ingresos promedio de los 12 meses anteriores con corte a **NOVIEMBRE** del año anterior.
-             * Para el **Segundo Semestre (Jul-Dic)**: Se tienen en cuenta los ingresos promedio de los 12 meses anteriores con corte a **MAYO**.
-        5. **Consejo:** La decisión depende del flujo de caja del empleado. P2 suaviza los picos de impuestos en meses de comisiones altas.
+           - Se determina en Diciembre (para Ene-Jun) y en Junio (para Jul-Dic) con base en el promedio de los 12 meses anteriores.
+        5. **Consejo:** La decisión depende del flujo de caja del empleado. P2 suaviza los picos de impuestos en meses de ingresos variables altos.
 
         Reglas de respuesta:
-        1. Cita siempre el Estatuto Tributario Y las reglas específicas de LATAM Payroll mencionadas arriba.
-        2. Si preguntan por fechas, recuerda el corte de Noviembre/Mayo para el promedio.
-        3. Explica claramente que el P2 ayuda a quienes tienen ingresos variables (comisiones/acciones) para evitar golpes fuertes de impuesto en un solo mes.
+        1. Cita siempre el Estatuto Tributario vigente.
+        2. Si preguntan por fechas, refiérete a los periodos estándar de definición (Dic/Jun).
+        3. Explica claramente que el P2 ayuda a quienes tienen ingresos variables para evitar golpes fuertes de impuesto en un solo mes.
         4. Sé conciso y profesional.
       `;
 
       const response = await ai.models.generateContent({
-        model: 'gemini-3-flash-preview',
+        model: 'gemini-1.5-flash',
         contents: [
           ...messages.map(m => ({ role: m.role, parts: [{ text: m.text }] })),
           { role: 'user', parts: [{ text: userMessage }] }
@@ -74,15 +87,19 @@ const Advisor: React.FC = () => {
       setMessages(prev => [...prev, { role: 'model', text }]);
 
     } catch (err: any) {
-      setError(err.message || "Error conectando con el servicio de IA.");
-      setMessages(prev => [...prev, { role: 'model', text: "Hubo un error al procesar tu consulta. Por favor intenta de nuevo." }]);
+      console.error(err);
+      setError(err.message || "Error conectando con el servicio de IA. Verifica tu API Key.");
+      setMessages(prev => [...prev, { role: 'model', text: "Hubo un error al procesar tu consulta. Verifica que tu API Key sea válida." }]);
+      if (err.message?.includes('API key') || err.status === 403) {
+          setShowKeyInput(true); // Re-ask for key if invalid
+      }
     } finally {
       setIsLoading(false);
     }
   };
 
   return (
-    <div className="flex flex-col h-[600px] bg-white rounded-xl shadow-lg border border-gray-200 overflow-hidden">
+    <div className="flex flex-col h-[600px] bg-white rounded-xl shadow-lg border border-gray-200 overflow-hidden relative">
       {/* Header */}
       <div className="bg-[#4285F4] p-4 flex items-center justify-between shadow-md z-10">
         <div className="flex items-center gap-3 text-white">
@@ -90,14 +107,73 @@ const Advisor: React.FC = () => {
             <Sparkles className="w-5 h-5" />
           </div>
           <div>
-            <h3 className="font-semibold">Asesor LATAM Payroll</h3>
+            <h3 className="font-semibold">Asesor Tributario</h3>
             <p className="text-xs text-white opacity-90">Contexto: Normativa 2026</p>
           </div>
         </div>
+        {/* Change Key Button */}
+        {hasKey && !process.env.API_KEY && !process.env.GEMINI_API_KEY && (
+            <button 
+                onClick={() => setShowKeyInput(true)}
+                className="text-xs text-blue-100 hover:text-white underline"
+            >
+                Cambiar API Key
+            </button>
+        )}
       </div>
 
+      {/* API Key Modal Overlay */}
+      {showKeyInput && (
+        <div className="absolute inset-0 z-50 bg-white/80 backdrop-blur-sm flex items-center justify-center p-6 animate-in fade-in duration-300">
+             <div className="bg-white p-8 rounded-2xl shadow-2xl border border-gray-200 max-w-md w-full text-center">
+                 <div className="w-12 h-12 bg-blue-50 text-[#4285F4] rounded-full flex items-center justify-center mx-auto mb-4">
+                    <Sparkles className="w-6 h-6" />
+                 </div>
+                 <h3 className="text-xl font-bold text-gray-900 mb-2">Configura tu Asesor IA</h3>
+                 <p className="text-sm text-gray-500 mb-6">
+                    Esta aplicación es gratuita y open-source. Para usar la inteligencia artificial, necesitas tu propia <strong>API Key de Google Gemini</strong> (es gratis).
+                 </p>
+                 
+                 <div className="space-y-4">
+                    
+                    <a 
+                        href="https://aistudio.google.com/app/apikey" 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="block w-full py-2 px-4 bg-gray-50 border border-gray-200 hover:bg-gray-100 text-gray-700 rounded-lg text-sm font-medium transition-colors mb-4 flex items-center justify-center gap-2"
+                    >
+                        Obtener mi API Key Gratis 
+                        <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" /></svg>
+                    </a>
+
+                    <div className="relative">
+                        <input 
+                            type="password" 
+                            placeholder="Pega tu API Key aquí (AIza...)" 
+                            value={userApiKey}
+                            onChange={(e) => setUserApiKey(e.target.value)}
+                            className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#4285F4] focus:border-[#4285F4] outline-none text-sm"
+                        />
+                    </div>
+
+                    <button 
+                        onClick={handleSaveKey}
+                        disabled={userApiKey.length < 10}
+                        className="w-full py-3 bg-[#4285F4] text-white rounded-lg font-bold hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-lg active:scale-95"
+                    >
+                        Guardar y Continuar
+                    </button>
+                    
+                    <p className="text-[10px] text-gray-400 mt-4">
+                        Tu clave se usa solo en tu navegador para conectar con Google. No se guarda en ningún servidor ajeno.
+                    </p>
+                 </div>
+             </div>
+        </div>
+      )}
+
       {/* Messages */}
-      <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-gray-50">
+      <div className={`flex-1 overflow-y-auto p-4 space-y-4 bg-gray-50 ${showKeyInput ? 'blur-sm select-none overflow-hidden' : ''}`}>
         {messages.map((msg, idx) => (
           <div
             key={idx}
@@ -124,15 +200,15 @@ const Advisor: React.FC = () => {
           <div className="flex justify-start">
              <div className="bg-white p-3 rounded-2xl rounded-bl-none border border-gray-200 flex items-center gap-2">
                 <Loader2 className="w-4 h-4 animate-spin text-[#4285F4]" />
-                <span className="text-sm text-gray-500">Consultando reglas LATAM Payroll...</span>
+                <span className="text-sm text-gray-500">Consultando normativa tributaria...</span>
              </div>
-          </div>
+           </div>
         )}
         <div ref={messagesEndRef} />
       </div>
 
       {/* Input */}
-      <div className="p-4 bg-white border-t border-gray-100">
+      <div className={`p-4 bg-white border-t border-gray-100 ${showKeyInput ? 'blur-sm pointer-events-none' : ''}`}>
         <div className="flex items-center gap-2">
           <input
             type="text"
@@ -151,7 +227,7 @@ const Advisor: React.FC = () => {
           </button>
         </div>
         <p className="text-center text-xs text-gray-400 mt-2">
-          Basado en documento oficial LATAM Payroll (Ene 2026).
+          Basado en el Estatuto Tributario Colombiano (2026).
         </p>
       </div>
     </div>

@@ -26,7 +26,7 @@ Herramienta web especializada para el cálculo, comparación y simulación de pr
 
 ### 3. Asesor IA (Gemini)
 - Chatbot integrado con contexto legal colombiano (Estatuto Tributario 2026).
-- Responde dudas sobre fechas límite, normatividad y reglas específicas (ej. Reglas LATAM Payroll).
+- Responde dudas sobre fechas límite, normatividad y reglas específicas (Estatuto Tributario).
 
 ## 🚀 Tecnologías
 
