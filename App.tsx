@@ -327,45 +327,33 @@ const App: React.FC = () => {
       <footer className="bg-white border-t border-gray-200 mt-auto">
          <div className="max-w-7xl mx-auto px-4 py-8 sm:px-6 lg:px-8">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
-               <div className="space-y-2">
-                  <div className="flex items-center gap-2 text-gray-900 font-bold">
-                     <Lock className="w-4 h-4 text-gray-400" />
+               <div className="space-y-3 bg-blue-50/50 p-4 rounded-lg border-l-4 border-blue-400">
+                  <div className="flex items-center gap-2 text-blue-900 font-bold">
+                     <Lock className="w-5 h-5 text-blue-500" />
                      <span>Privacidad y Seguridad</span>
                   </div>
-                  <p className="text-xs text-gray-500 leading-relaxed">
+                  <p className="text-xs text-blue-800/80 leading-relaxed">
                      Esta aplicación se ejecuta completamente en tu navegador. Tus datos financieros <strong>nunca</strong> son enviados a ningún servidor ni base de datos externa. No se guarda historial de navegación.
                   </p>
                </div>
                
-               <div className="space-y-2">
-                  <div className="flex items-center gap-2 text-gray-900 font-bold">
-                     <AlertTriangle className="w-4 h-4 text-orange-400" />
+               <div className="space-y-3 bg-orange-50/50 p-4 rounded-lg border-l-4 border-orange-400">
+                  <div className="flex items-center gap-2 text-orange-900 font-bold">
+                     <AlertTriangle className="w-5 h-5 text-orange-500" />
                      <span>Descargo de Responsabilidad</span>
                   </div>
-                  <p className="text-xs text-gray-500 leading-relaxed">
-                     <strong>No soy contador público.</strong> Esta herramienta es un simulador con fines educativos e informativos basado en la normativa colombiana vigente (2026). No me hago responsable por decisiones financieras tomadas basadas en estos resultados. Se recomienda consultar con un experto tributario.
+                  <p className="text-xs text-orange-800/80 leading-relaxed">
+                     <strong>No soy contador público.</strong> Esta herramienta es un simulador con fines educativos basado en la normativa colombiana (2026). No me hago responsable por decisiones financieras tomadas basadas en estos resultados. Consulta a un experto.
                   </p>
                </div>
             </div>
             
-            <div className="mt-8 pt-8 border-t border-gray-100 flex flex-col md:flex-row justify-between items-center gap-4">
-               <div className="text-xs text-gray-400">
-                  © 2026 Retención Guru. Todos los derechos reservados.
+            <div className="mt-8 pt-8 border-t border-gray-100 flex flex-col items-center gap-4">
+               <div className="flex flex-col md:flex-row items-center gap-2 bg-white/50 px-4 py-2 rounded-full border border-gray-100 shadow-sm backdrop-blur-sm">
+                  <span className="text-xs font-medium text-gray-600">Hecho por <a href="https://www.linkedin.com/in/juankruiz" target="_blank" rel="noopener noreferrer" className="font-bold hover:text-[#4285F4] transition-colors">JuanK Ruiz</a></span>
                </div>
-               <div className="flex items-center gap-2 bg-gray-50 px-4 py-2 rounded-full border border-gray-100">
-                  <span className="text-xs text-gray-500 font-medium">Creado con ❤️ por</span>
-                  <a 
-                    href="https://www.linkedin.com/in/juankruiz" 
-                    target="_blank" 
-                    rel="noopener noreferrer" 
-                    className="flex items-center gap-1 text-xs font-bold text-[#4285F4] hover:text-blue-700 transition-colors"
-                  >
-                    JuanKRuiz
-                    <Linkedin className="w-3 h-3" />
-                  </a>
-                  <span className="text-[10px] text-gray-400 ml-1 border-l border-gray-300 pl-2">
-                     juankruiz@google.com • juank.ruiz@gmail.com
-                  </span>
+               <div className="text-[10px] text-gray-400">
+                  © 2026 Retención Guru • juankruiz@google.com • juank.ruiz@gmail.com
                </div>
             </div>
          </div>
