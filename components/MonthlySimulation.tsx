@@ -171,32 +171,36 @@ const MonthlySimulation: React.FC<Props> = ({ baseInputs, fixedRateP2 }) => {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         
         {/* NEW: Savings Analysis Card */}
-        <div className={`rounded-xl p-5 relative overflow-hidden border border-l-4 shadow-sm ${Math.abs(totals.diff) > 0 ? (totals.diff > 0 ? 'bg-blue-50/50 border-blue-500 from-blue-50 to-white' : 'bg-green-50/50 border-green-500 from-green-50 to-white') : 'bg-gray-50 border-gray-300'}`}>
-             <div className="relative z-10 flex flex-col h-full justify-between">
-                <div className="flex items-start gap-3 mb-4">
-                   <div className={`p-3 rounded-full shadow-sm ${totals.diff > 0 ? 'bg-blue-100 text-blue-600' : 'bg-green-100 text-green-600'}`}>
-                      <DollarSign className="w-6 h-6" />
+        {/* NEW: Savings Analysis Card (Google Cloud Style) */}
+        <div className={`rounded-xl p-0 relative overflow-hidden shadow-md bg-white border border-gray-100 flex flex-col`}>
+             <div className={`h-2 w-full ${totals.diff > 0 ? 'bg-[#4285F4]' : 'bg-[#34A853]'}`}></div>
+             <div className="p-6 flex-1 flex flex-col justify-between">
+                <div className="flex items-start gap-4 mb-4">
+                   <div className={`p-3 rounded-full shadow-sm ${totals.diff > 0 ? 'bg-blue-50 text-[#4285F4]' : 'bg-green-50 text-[#34A853]'}`}>
+                      <DollarSign className="w-8 h-8" />
                    </div>
                    <div>
-                      <h3 className={`font-bold text-lg ${totals.diff > 0 ? 'text-blue-900' : 'text-green-900'}`}>Opción Más Económica</h3>
-                      <p className="text-gray-600 text-sm mt-1">
-                         La opción que te hace pagar menos impuestos al año.
+                      <h3 className="font-bold text-xl text-gray-800">Opción Más Económica</h3>
+                      <p className="text-gray-500 text-sm mt-1">
+                         Maximiza tus ingresos anuales reduciendo impuestos.
                       </p>
                    </div>
                 </div>
 
-                <div className="bg-white/80 backdrop-blur-sm px-5 py-4 rounded-xl border border-gray-200/50 shadow-sm">
+                <div className={`mt-4 rounded-lg p-4 border border-l-4 ${totals.diff > 0 ? 'bg-blue-50/30 border-blue-100 border-l-[#4285F4]' : 'bg-green-50/30 border-green-100 border-l-[#34A853]'}`}>
                    <div className="flex justify-between items-center">
                       <div>
-                         <p className="text-xs text-gray-400 font-bold uppercase tracking-wider mb-1">Mejor Opción</p>
-                         <p className={`text-xl font-bold flex items-center gap-2 ${totals.diff > 0 ? 'text-blue-600' : totals.diff < 0 ? 'text-green-600' : 'text-gray-600'}`}>
+                         <p className="text-[10px] text-gray-500 font-bold uppercase tracking-widest mb-1">Recomendación</p>
+                         <p className={`text-2xl font-bold flex items-center gap-2 ${totals.diff > 0 ? 'text-[#4285F4]' : totals.diff < 0 ? 'text-[#34A853]' : 'text-gray-600'}`}>
                             {Math.abs(totals.diff) < 1000 ? 'Empate Técnico' : (totals.diff > 0 ? 'Procedimiento 2' : 'Procedimiento 1')}
                          </p>
                       </div>
                       {Math.abs(totals.diff) > 1000 && (
                           <div className="text-right">
-                             <p className="text-xs text-gray-400 font-bold uppercase tracking-wider mb-1">Ahorro Anual</p>
-                             <p className="text-xl font-bold text-gray-800">{formatCOP(Math.abs(totals.diff))}</p>
+                             <p className="text-[10px] text-gray-500 font-bold uppercase tracking-widest mb-1">Ahorro Anual</p>
+                             <div className="px-3 py-1 rounded bg-white shadow-sm border border-gray-100 inline-block">
+                                <p className="text-xl font-bold text-gray-800">{formatCOP(Math.abs(totals.diff))}</p>
+                             </div>
                           </div>
                       )}
                    </div>
@@ -204,30 +208,31 @@ const MonthlySimulation: React.FC<Props> = ({ baseInputs, fixedRateP2 }) => {
              </div>
         </div>
 
-        {/* Existing: Stability Analysis Card */}
+        {/* Existing: Stability Analysis Card (Google Cloud Style) */}
         {stabilityAnalysis && stabilityAnalysis.winner !== 'Empate' && (
-            <div className="bg-gradient-to-r from-indigo-50 to-purple-50 border-l-4 border-l-indigo-500 rounded-xl p-5 relative overflow-hidden shadow-sm">
-               <div className="relative z-10 flex flex-col h-full justify-between">
-                  <div className="flex items-start gap-3 mb-4">
-                     <div className="p-3 bg-indigo-100 rounded-full shadow-sm text-indigo-600">
-                        <Activity className="w-6 h-6" />
+            <div className="rounded-xl p-0 relative overflow-hidden shadow-md bg-white border border-gray-100 flex flex-col">
+               <div className="h-2 w-full bg-[#EA4335]"></div>
+               <div className="p-6 flex-1 flex flex-col justify-between">
+                  <div className="flex items-start gap-4 mb-4">
+                     <div className="p-3 bg-red-50 rounded-full shadow-sm text-[#EA4335]">
+                        <Activity className="w-8 h-8" />
                      </div>
                      <div>
-                        <h3 className="font-bold text-indigo-900 text-lg">Opción Más Estable</h3>
-                        <p className="text-indigo-700/80 text-sm mt-1">
+                        <h3 className="font-bold text-xl text-gray-800">Opción Más Estable</h3>
+                        <p className="text-gray-500 text-sm mt-1">
                            Menor variación en tu sueldo neto mensual.
                         </p>
                      </div>
                   </div>
                   
-                  <div className="bg-white/80 backdrop-blur-sm px-5 py-4 rounded-xl border border-indigo-100 shadow-sm mt-auto">
+                  <div className="mt-4 rounded-lg p-4 border border-l-4 bg-red-50/30 border-red-100 border-l-[#EA4335]">
                       <div>
-                         <p className="text-xs text-indigo-400 font-bold uppercase tracking-wider mb-1">Mejor Opción</p>
-                         <p className="text-xl font-bold text-indigo-600 flex items-center gap-2">
+                         <p className="text-[10px] text-gray-500 font-bold uppercase tracking-widest mb-1">Recomendación</p>
+                         <p className="text-2xl font-bold text-[#EA4335] flex items-center gap-2">
                              {stabilityAnalysis.winner}
                          </p>
-                         <p className="text-xs text-indigo-400 mt-2">
-                            {stabilityAnalysis.percentDifference.toFixed(1)}% más predecible mes a mes.
+                         <p className="text-xs text-gray-500 mt-2 font-medium">
+                            <span className="font-bold text-[#EA4335]">{stabilityAnalysis.percentDifference.toFixed(1)}%</span> más predecible mes a mes.
                          </p>
                       </div>
                   </div>
