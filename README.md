@@ -1,4 +1,4 @@
-# Retención Guru 2026 🇨🇴
+# Retención Guru 2026 🇨🇴 <!-- Cambio para reiniciar despliegue -->
 
 Herramienta web especializada para el cálculo, comparación y simulación de procedimientos de Retención en la Fuente en Colombia (Año Fiscal 2026). Diseñada específicamente para ayudar a empleados a tomar la mejor decisión entre el Procedimiento 1 (Mensual) y el Procedimiento 2 (Fijo Semestral).
 
