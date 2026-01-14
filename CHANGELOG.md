@@ -10,6 +10,10 @@ Todas las modificaciones notables a este proyecto serán documentadas en este ar
 - **Simulación Mejorada**: Nueva tarjeta de "Opción Más Económica" en la pestaña de Simulación para equilibrar el análisis visual frente a la "Opción Más Estable".
 
 ### 🔧 Ajustes y Mejoras
+- **UI:** Mejorado el diseño de las advertencias de "Privacidad" y "Descargo de Responsabilidad" (colores de alerta).
+- **Feature Flag:** Deshabilitado temporalmente el acceso al "Asesor IA" desde la interfaz de usuario.
+- **Créditos:** Actualizado el footer con mención al IDE Antigravity.
+- **Despliegue:** Configurado CI/CD con GitHub Actions.
 - **Anonimización**: Se eliminaron datos personales y referencias a salarios reales en el modo Demo.
 - **Privacidad**: Eliminación completa de referencias internas corporativas ("LATAM Payroll", "Reglas Internas"). La IA ahora se basa estrictamente en el **Estatuto Tributario Colombiano** general.
 - **Seguridad**: Actualización de `.gitignore` para excluir archivos de entorno sensibles.

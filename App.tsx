@@ -3,9 +3,9 @@ import { TaxInputs, ComparisonResult, Tab } from './types';
 import { calculateTax } from './utils/taxLogic';
 import InputForm from './components/InputForm';
 import ComparisonChart from './components/ComparisonChart';
-import Advisor from './components/Advisor';
+// import Advisor from './components/Advisor';
 import MonthlySimulation from './components/MonthlySimulation';
-import { Calculator, AlertTriangle, FileText, TrendingDown, Zap, Calendar, BarChart2, ArrowRight, Lock, User, PlayCircle, GraduationCap, Linkedin } from 'lucide-react';
+import { Calculator, AlertTriangle, FileText, TrendingDown, Zap, Calendar, BarChart2, ArrowRight, Lock, User, PlayCircle, GraduationCap, Linkedin, Sparkles } from 'lucide-react';
 
 const App: React.FC = () => {
   const [activeTab, setActiveTab] = useState<Tab>(Tab.CALCULATOR);
@@ -105,12 +105,7 @@ const App: React.FC = () => {
                    </span>
                 )}
               </button>
-              <button 
-                onClick={() => setActiveTab(Tab.ADVISOR)}
-                className={`px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 whitespace-nowrap ${activeTab === Tab.ADVISOR ? 'bg-blue-50 text-[#4285F4] shadow-sm' : 'text-gray-500 hover:text-gray-700 hover:bg-gray-50'}`}
-              >
-                Asesor IA
-              </button>
+
             </div>
           </div>
         </div>
@@ -311,15 +306,7 @@ const App: React.FC = () => {
             </div>
         )}
 
-        {activeTab === Tab.ADVISOR && (
-          <div className="max-w-4xl mx-auto animate-in fade-in slide-in-from-bottom-4 duration-500">
-             <div className="mb-6 text-center">
-                <h2 className="text-3xl font-bold text-gray-900">Asesoría Legal Inteligente</h2>
-                <p className="text-gray-500 mt-2">Pregunta sobre normas, beneficios y cómo optimizar tu retención según el Estatuto Tributario.</p>
-             </div>
-             <Advisor />
-          </div>
-        )}
+
 
       </main>
 
