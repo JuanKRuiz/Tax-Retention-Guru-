@@ -349,8 +349,13 @@ const App: React.FC = () => {
             </div>
             
             <div className="mt-8 pt-8 border-t border-gray-100 flex flex-col items-center gap-4">
-               <div className="flex flex-col md:flex-row items-center gap-2 bg-white/50 px-4 py-2 rounded-full border border-gray-100 shadow-sm backdrop-blur-sm">
-                  <span className="text-xs font-medium text-gray-600">Hecho por <a href="https://www.linkedin.com/in/juankruiz" target="_blank" rel="noopener noreferrer" className="font-bold hover:text-[#4285F4] transition-colors">JuanK Ruiz</a></span>
+               <div className="flex flex-col md:flex-row items-center gap-3 bg-white/50 px-4 py-2 rounded-full border border-gray-100 shadow-sm backdrop-blur-sm">
+                  <span className="text-xs font-medium text-gray-600">Hecho por <a href="https://www.linkedin.com/in/juankruiz" target="_blank" rel="noopener noreferrer" className="font-bold hover:text-[#4285F4] transition-colors">JuanK Ruiz</a> con el poder de</span>
+                  <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-md bg-gradient-to-r from-purple-50 to-blue-50 border border-purple-100">
+                     <Sparkles className="w-3 h-3 text-purple-600" />
+                     <span className="text-xs font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">Antigravity</span>
+                  </div>
+                  <span className="text-[10px] text-gray-400 font-medium tracking-wide">Antigravity - Google Intelligent IDE</span>
                </div>
                <div className="text-[10px] text-gray-400">
                   © 2026 Retención Guru • juankruiz@google.com • juank.ruiz@gmail.com
